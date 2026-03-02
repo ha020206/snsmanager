@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply bg-ig-background text-ig-text antialiased;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  min-height: 100dvh;
+}
+
+.app-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+.nav-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0px);
+}
+
+.card-touch {
+  @apply active:opacity-95 transition-opacity duration-100;
+}
+
+/* 인스타그램 스타일 카드 */
+.ig-card {
+  @apply bg-white border border-ig-border rounded-lg;
+}

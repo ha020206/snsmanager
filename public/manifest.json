@@ -1,0 +1,10 @@
+{
+  "name": "SNS 마케팅 도우미",
+  "short_name": "SNS 도우미",
+  "description": "맞춤형 SNS 마케팅 자동화 - 브랜드 프로필, 콘텐츠 로드맵, 인사이트, CS 자동화",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f12",
+  "theme_color": "#0f0f12",
+  "orientation": "portrait-primary"
+}

@@ -38,6 +38,15 @@ npm run dev
 
 브라우저에서 `http://localhost:3000` 접속 후 **이메일만 입력**해 로그인(또는 회원가입)하면 대시보드를 사용할 수 있습니다. 비밀번호는 프로토타입이라 검증하지 않습니다.
 
+## GitHub Pages 배포
+
+이 프로젝트는 **정적 내보내기(static export)**로 빌드되어 GitHub Pages에 배포할 수 있습니다.
+
+- **main** 브랜치에 푸시하면 GitHub Actions가 자동으로 빌드 후 **GitHub Pages**에 배포합니다.
+- 배포 URL: `https://<username>.github.io/snsmanager/`
+- 리포지토리 **Settings → Pages**에서 "GitHub Actions" 소스가 선택되어 있어야 합니다.
+- GitHub Pages에서는 서버 API가 없어 **AI 생성(OpenAI/Jina)**은 동작하지 않고, 브랜드·로드맵·CS는 **목(mock) 데이터**로 동작합니다. 로컬에서 `npm run dev`로 실행하면 API를 사용할 수 있습니다.
+
 ## 앱처럼 사용하기
 
 - 모바일 브라우저에서 접속 후 **홈 화면에 추가**하면 standalone 앱처럼 실행됩니다.

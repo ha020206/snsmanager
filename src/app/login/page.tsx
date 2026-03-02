@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 import { saveBrandProfile } from '@/lib/store'
+import { apiBrandGenerate } from '@/lib/apiClient'
 import { ChevronLeft } from 'lucide-react'
 
 type Step = 'auth' | 'brand'
@@ -52,18 +53,13 @@ export default function LoginPage() {
       let profileImageUrl: string | null = null
 
       if (kw.length > 0 || industry || target || atmosphere) {
-        const res = await fetch('/api/brand/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            keywords: kw.length ? kw : ['브랜드'],
-            industry: industry || undefined,
-            targetCustomer: target || undefined,
-            atmosphere: atmosphere || undefined,
-          }),
+        const data = await apiBrandGenerate({
+          keywords: kw.length ? kw : ['브랜드'],
+          industry: industry || undefined,
+          targetCustomer: target || undefined,
+          atmosphere: atmosphere || undefined,
         })
-        const data = await res.json()
-        if (res.ok && data.accountId) {
+        if (data.accountId) {
           accountId = data.accountId
           bio = data.bio
           profileImageUrl = data.profileImageUrl ?? null

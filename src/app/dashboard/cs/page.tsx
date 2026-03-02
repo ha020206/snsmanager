@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 import { getCSRules, saveCSRule } from '@/lib/store'
+import { apiCSReply } from '@/lib/apiClient'
 import type { CSRule } from '@/types'
 import { Plus, Send } from 'lucide-react'
 
@@ -57,21 +58,15 @@ export default function CSPage() {
     setReplyLoading(true)
     setReply(null)
     try {
-      const res = await fetch('/api/cs/reply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          question: question.trim(),
-          rules: rules.map((r) => ({
-            id: r.id,
-            question: r.question,
-            answer: r.answer,
-            keywords: r.keywords,
-          })),
-        }),
+      const data = await apiCSReply({
+        question: question.trim(),
+        rules: rules.map((r) => ({
+          id: r.id,
+          question: r.question,
+          answer: r.answer,
+          keywords: r.keywords,
+        })),
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || '조회 실패')
       if (data.matched && data.answer) {
         setReply(data.answer)
       } else {

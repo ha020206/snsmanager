@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useAuth } from '@/components/AuthProvider'
 import { getBrandProfiles, saveBrandProfile } from '@/lib/store'
+import { apiBrandGenerate } from '@/lib/apiClient'
 import type { BrandProfile } from '@/types'
 import { Settings } from 'lucide-react'
 
@@ -35,18 +36,12 @@ export default function BrandPage() {
     setGenLoading(true)
     setResult(null)
     try {
-      const res = await fetch('/api/brand/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          keywords: kw.length ? kw : ['브랜드'],
-          industry: industry || undefined,
-          targetCustomer: target || undefined,
-          atmosphere: atmosphere || undefined,
-        }),
+      const data = await apiBrandGenerate({
+        keywords: kw.length ? kw : ['브랜드'],
+        industry: industry || undefined,
+        targetCustomer: target || undefined,
+        atmosphere: atmosphere || undefined,
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || '생성 실패')
       setResult({ accountId: data.accountId, bio: data.bio, profileImageUrl: data.profileImageUrl })
     } catch (e) {
       alert(e instanceof Error ? e.message : '생성 실패')

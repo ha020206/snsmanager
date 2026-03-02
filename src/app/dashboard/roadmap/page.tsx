@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useAuth } from '@/components/AuthProvider'
 import { getRoadmap, getBrandProfiles, saveRoadmapItem } from '@/lib/store'
+import { apiRoadmapGenerate, apiRoadmapImage } from '@/lib/apiClient'
 import type { ContentRoadmapItem } from '@/types'
 
 type RoadmapTopic = { title: string; description: string; imagePrompt?: string }
@@ -33,13 +34,7 @@ export default function RoadmapPage() {
     setGenLoading(true)
     setGenerated([])
     try {
-      const res = await fetch('/api/roadmap/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ brandContext: brandContext || undefined, count: 8 }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || '생성 실패')
+      const data = await apiRoadmapGenerate({ brandContext: brandContext || undefined, count: 8 })
       setGenerated(data.roadmap || [])
     } catch (e) {
       alert(e instanceof Error ? e.message : '로드맵 생성 실패')
@@ -51,13 +46,9 @@ export default function RoadmapPage() {
   const generateImage = async (prompt: string, index: number) => {
     setImgLoadingId(`gen-${index}`)
     try {
-      const res = await fetch('/api/roadmap/image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: prompt || `social media content image ${index + 1}` }),
+      const data = await apiRoadmapImage({
+        prompt: prompt || `social media content image ${index + 1}`,
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || '이미지 생성 실패')
       if (data.url && user) {
         const item: Omit<ContentRoadmapItem, 'id' | 'userId' | 'createdAt'> = {
           order: roadmap.length + index,

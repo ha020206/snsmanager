@@ -61,6 +61,7 @@ export default function RoadmapPage() {
   const [photoLoading, setPhotoLoading] = useState(false)
   const [photoResult, setPhotoResult] = useState<{ caption?: string; musicLabel?: string; isReelsVideo?: boolean } | null>(null)
   const [captionText, setCaptionText] = useState('')
+  const [photoNote, setPhotoNote] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
   const [customKeyword, setCustomKeyword] = useState('')
@@ -132,6 +133,7 @@ export default function RoadmapPage() {
     setPhotoMode(null)
     setPhotoResult(null)
     setCaptionText('')
+    setPhotoNote('')
   }
 
   const handlePhotoAsReels = () => {
@@ -400,60 +402,74 @@ export default function RoadmapPage() {
                 )}
               </div>
 
-              {!photoResult ? (
-                <div className="grid grid-cols-3 gap-2">
-                  <button type="button" onClick={() => fileRef.current?.click()} className="btn-outline py-3">
-                    다른 사진
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handlePhotoAsReels}
-                    disabled={photoLoading}
-                    className="btn-primary py-3 disabled:opacity-60"
-                  >
-                    <Film className="w-4 h-4" />
-                    <span>릴스</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handlePhotoAsFeed}
-                    disabled={photoLoading}
-                    className="btn-outline py-3 border-ig-primary text-ig-primary disabled:opacity-60"
-                  >
-                    <ImageIcon className="w-4 h-4" />
-                    <span>피드</span>
-                  </button>
+              <div className="ig-card p-4 rounded-xl space-y-3">
+                <div>
+                  <span className="block text-xs font-medium text-ig-text-secondary mb-1">
+                    작성할 게시물에 대한 정보 (선택)
+                  </span>
+                  <textarea
+                    className="w-full min-h-[72px] rounded-xl border border-ig-border bg-ig-background px-3 py-2 text-sm text-ig-secondary resize-none"
+                    placeholder="예: 신메뉴 소개, 오늘 분위기, 이벤트 안내 등"
+                    value={photoNote}
+                    onChange={(e) => setPhotoNote(e.target.value)}
+                  />
                 </div>
-              ) : (
-                <div className="ig-card p-5 rounded-xl space-y-4">
-                  {photoMode === 'reels' && photoResult.musicLabel && (
-                    <p className="text-sm text-ig-secondary flex items-center gap-2">
-                      <Music className="w-4 h-4 flex-shrink-0" />
-                      {photoResult.musicLabel}
-                    </p>
-                  )}
-                  {photoResult.caption && (
-                    <div>
-                      <span className="block text-xs font-medium text-ig-text-secondary mb-1">캡션·해시태그 (수정 가능)</span>
-                      <textarea
-                        className="w-full min-h-[96px] rounded-xl border border-ig-border bg-ig-background px-3 py-2 text-sm text-ig-secondary resize-none"
-                        value={captionText}
-                        onChange={(e) => setCaptionText(e.target.value)}
-                      />
-                    </div>
-                  )}
-                  <div className="grid grid-cols-2 gap-2">
-                    <button type="button" onClick={openScheduleFromPhoto} className="btn-outline py-3">
-                      <CalendarClock className="w-4 h-4" />
-                      <span>예약하기</span>
+
+                {!photoResult ? (
+                  <div className="grid grid-cols-3 gap-2">
+                    <button type="button" onClick={() => fileRef.current?.click()} className="btn-outline py-3">
+                      다른 사진
                     </button>
-                    <button type="button" onClick={handleInstagramUploadFromPhoto} disabled={uploading} className="btn-primary py-3 disabled:opacity-60">
-                      {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-                      <span>{uploading ? '업로드 중…' : '인스타 업로드'}</span>
+                    <button
+                      type="button"
+                      onClick={handlePhotoAsReels}
+                      disabled={photoLoading}
+                      className="btn-primary py-3 disabled:opacity-60"
+                    >
+                      <Film className="w-4 h-4" />
+                      <span>릴스</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handlePhotoAsFeed}
+                      disabled={photoLoading}
+                      className="btn-outline py-3 border-ig-primary text-ig-primary disabled:opacity-60"
+                    >
+                      <ImageIcon className="w-4 h-4" />
+                      <span>피드</span>
                     </button>
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="space-y-4">
+                    {photoMode === 'reels' && photoResult.musicLabel && (
+                      <p className="text-sm text-ig-secondary flex items-center gap-2">
+                        <Music className="w-4 h-4 flex-shrink-0" />
+                        {photoResult.musicLabel}
+                      </p>
+                    )}
+                    {photoResult.caption && (
+                      <div>
+                        <span className="block text-xs font-medium text-ig-text-secondary mb-1">캡션·해시태그 (수정 가능)</span>
+                        <textarea
+                          className="w-full min-h-[96px] rounded-xl border border-ig-border bg-ig-background px-3 py-2 text-sm text-ig-secondary resize-none"
+                          value={captionText}
+                          onChange={(e) => setCaptionText(e.target.value)}
+                        />
+                      </div>
+                    )}
+                    <div className="grid grid-cols-2 gap-2">
+                      <button type="button" onClick={openScheduleFromPhoto} className="btn-outline py-3">
+                        <CalendarClock className="w-4 h-4" />
+                        <span>예약하기</span>
+                      </button>
+                      <button type="button" onClick={handleInstagramUploadFromPhoto} disabled={uploading} className="btn-primary py-3 disabled:opacity-60">
+                        {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                        <span>{uploading ? '업로드 중…' : '인스타 업로드'}</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -484,21 +500,12 @@ export default function RoadmapPage() {
               </div>
               <div className="flex-1">
                 <label className="block text-xs text-ig-text-secondary mb-1">시간</label>
-                <div className="flex gap-2">
-                  <input
-                    type="time"
-                    value={scheduleTime}
-                    onChange={(e) => setScheduleTime(e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-xl border border-ig-border bg-ig-background text-ig-secondary text-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={applyRecommendedTime}
-                    className="btn-outline px-3 py-2 text-[11px]"
-                  >
-                    인사이트 추천
-                  </button>
-                </div>
+                <input
+                  type="time"
+                  value={scheduleTime}
+                  onChange={(e) => setScheduleTime(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl border border-ig-border bg-ig-background text-ig-secondary text-sm"
+                />
               </div>
             </div>
             <button
@@ -517,7 +524,7 @@ export default function RoadmapPage() {
               className="btn-primary w-full py-3"
             >
               <CalendarClock className="w-4 h-4" />
-              <span>AI 자동 업로드 예약</span>
+              <span>AI 자동 업로드</span>
             </button>
           </div>
 

@@ -38,7 +38,7 @@ body {
 
 /* 콘텐츠 영역 최대 너비 (양옆 여백) */
 .content-wrap {
-  @apply w-full max-w-lg mx-auto;
+  @apply w-full max-w-[360px] mx-auto;
 }
 
 /* 버튼 공통 - 한글 깨짐 방지 */

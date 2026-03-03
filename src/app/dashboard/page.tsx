@@ -48,6 +48,7 @@ const MOCK_POST_GRID = [
 
 export default function DashboardPage() {
   const [tab, setTab] = useState<HomeTab>('profile')
+  const [started, setStarted] = useState<boolean>(false)
   const [industry, setIndustry] = useState('')
   const [target, setTarget] = useState('')
   const [atmosphere, setAtmosphere] = useState('')
@@ -72,6 +73,46 @@ export default function DashboardPage() {
 
   const displayProfile = profileResult || (accountLinked ? MOCK_PROFILES[0] : null)
   const showProfile = !!displayProfile
+
+  if (!started) {
+    return (
+      <div className="flex-1 flex flex-col justify-center py-6">
+        <div className="ig-card rounded-2xl p-6 text-center space-y-4">
+          <p className="text-xs font-semibold tracking-[0.12em] text-ig-text-secondary uppercase">
+            시작하기
+          </p>
+          <h1 className="text-xl font-semibold text-ig-secondary">
+            어떻게 시작할까요?
+          </h1>
+          <p className="text-sm text-ig-text-secondary">
+            AI로 새 프로필을 만들거나, 이미 운영 중인 인스타그램 계정으로 시작할 수 있어요.
+          </p>
+          <div className="grid gap-2 mt-2">
+            <button
+              type="button"
+              onClick={() => {
+                setTab('profile')
+                setStarted(true)
+              }}
+              className="btn-primary w-full py-3"
+            >
+              AI 프로필 제작
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setTab('account')
+                setStarted(true)
+              }}
+              className="btn-outline w-full py-3"
+            >
+              기존 인스타 계정으로 시작
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="py-5 flex-1 flex flex-col min-h-0">
@@ -137,7 +178,7 @@ export default function DashboardPage() {
                 <Image src={displayProfile.profileImageUrl} alt="" width={112} height={112} className="object-cover w-full h-full" unoptimized />
               </div>
             </div>
-            <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <h2 className="text-xl font-normal text-ig-secondary">{displayProfile.accountId}</h2>
                 <button type="button" className="btn-outline py-1.5 px-4 text-sm">

@@ -17,15 +17,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-dvh bg-ig-background flex flex-col">
-      <header className="sticky top-0 z-20 h-14 bg-white border-b border-ig-border flex-shrink-0">
+      <header className="sticky top-0 z-20 h-14 flex-shrink-0">
         <div className="content-wrap h-full px-4 flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-ig-secondary truncate">
-          {pathname === '/dashboard' && '홈'}
-          {pathname === '/dashboard/roadmap' && '콘텐츠'}
-          {pathname === '/dashboard/insights' && '인사이트'}
-          {pathname === '/dashboard/cs' && '메시지'}
-        </h1>
-        <nav className="hidden" />
+          <h1 className="text-lg font-semibold text-ig-secondary truncate">
+            {pathname === '/dashboard' && '홈'}
+            {pathname === '/dashboard/roadmap' && '콘텐츠'}
+            {pathname === '/dashboard/insights' && '인사이트'}
+            {pathname === '/dashboard/cs' && '메시지'}
+          </h1>
+          <nav className="hidden" />
         </div>
       </header>
 
@@ -35,8 +35,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-ig-border nav-safe">
-        <div className="content-wrap h-14 flex justify-around items-center">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 nav-safe">
+        <div className="content-wrap h-14 flex justify-around items-center bg-white border border-ig-border rounded-full shadow-sm mb-3">
           {nav.map(({ href, label, icon: Icon }) => {
             const isActive = pathname === href || (href !== '/dashboard' && pathname.startsWith(href))
             return (

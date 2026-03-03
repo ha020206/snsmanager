@@ -16,6 +16,8 @@ const config: Config = {
           border: '#dbdbdb',
           text: '#262626',
           'text-secondary': '#8e8e8e',
+          like: '#ed4956',
+          story: '#e1306c',
         },
       },
       fontFamily: {

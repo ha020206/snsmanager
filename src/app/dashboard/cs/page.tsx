@@ -125,7 +125,9 @@ export default function CSPage() {
               <button type="button" onClick={() => setSelectedId('')} className="p-1.5 rounded-full text-ig-secondary" aria-label="목록">
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <span className="font-semibold text-ig-secondary text-sm truncate">{selectedId ? selectedChat.customerName : '메시지'}</span>
+              <span className="font-semibold text-ig-secondary text-sm truncate">
+                {selectedId && selectedChat ? selectedChat.customerName : '메시지'}
+              </span>
             </div>
             {!selectedId ? (
               <div className="flex-1 flex items-center justify-center p-4 text-ig-text-secondary text-sm">

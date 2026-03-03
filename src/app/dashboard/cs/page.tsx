@@ -63,11 +63,18 @@ export default function CSPage() {
   const [inputValue, setInputValue] = useState('')
   const [previewReply, setPreviewReply] = useState<{ question: string; answer: string } | null>(null)
 
-  const selectedChat = MOCK_CHATS.find((c) => c.id === selectedId) ?? MOCK_CHATS[0]
+  const selectedChat = MOCK_CHATS.find((c) => c.id === selectedId)
   const showList = selectedId === ''
-  const displayMessages = previewReply
-    ? [...selectedChat.messages, { id: 'pr-q', sender: 'customer' as const, text: previewReply.question }, { id: 'pr-a', sender: 'bot' as const, text: previewReply.answer, isAutoReply: true }]
-    : selectedChat.messages
+  const displayMessages =
+    selectedChat == null
+      ? []
+      : previewReply
+      ? [
+          ...selectedChat.messages,
+          { id: 'pr-q', sender: 'customer' as const, text: previewReply.question },
+          { id: 'pr-a', sender: 'bot' as const, text: previewReply.answer, isAutoReply: true },
+        ]
+      : selectedChat.messages
 
   const handleSend = () => {
     if (!inputValue.trim()) return
@@ -88,7 +95,7 @@ export default function CSPage() {
 
       {csTab === 'dm' && (
         <div className="flex-1 flex min-h-0 rounded-xl border border-ig-border bg-white overflow-hidden">
-          <div className={`flex flex-col border-r border-ig-border flex-shrink-0 ${showList ? 'flex w-full' : 'hidden'} md:!flex md:w-44`}>
+          <div className={`flex flex-col border-r border-ig-border flex-shrink-0 ${showList ? 'flex w-full' : 'hidden'}`}>
             <div className="p-2 border-b border-ig-border flex-shrink-0">
               <p className="text-xs font-semibold text-ig-secondary">채팅</p>
             </div>
@@ -113,9 +120,9 @@ export default function CSPage() {
             </ul>
           </div>
 
-          <div className={`flex-1 flex flex-col min-w-0 min-h-0 ${showList ? 'hidden' : 'flex'} md:!flex`}>
+          <div className={`flex-1 flex flex-col min-w-0 min-h-0 ${showList ? 'hidden' : 'flex'}`}>
             <div className="px-3 py-2 border-b border-ig-border bg-white flex items-center gap-2 flex-shrink-0">
-              <button type="button" onClick={() => setSelectedId('')} className="md:hidden p-1.5 rounded-full text-ig-secondary" aria-label="목록">
+              <button type="button" onClick={() => setSelectedId('')} className="p-1.5 rounded-full text-ig-secondary" aria-label="목록">
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <span className="font-semibold text-ig-secondary text-sm truncate">{selectedId ? selectedChat.customerName : '메시지'}</span>
